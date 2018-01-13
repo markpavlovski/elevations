@@ -1,0 +1,67 @@
+html {
+	background: #fefefe;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+canvas { 	
+	width: 100%; 
+	height: 100%; 
+	valign: auto;
+	margin-bottom: 10%;
+}
+
+button {
+    margin: 1em;
+    padding: 1em;
+    min-width: 10em;
+    background: #cccccc;
+    border-radius: 1em;
+    cursor: hand;
+}
+
+.buttoncontrols {
+    text-align: center;
+    margin: 5%;
+}
+
+
+.container {
+    width: 525px;
+    padding: 0px;
+    background: #fefefe;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+
+}
+
+.container::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.cell {
+    float: left;
+    background: #fefefe;
+    text-align: center;
+    line-height: 25px;
+    width: 25px; 
+    height: 25px;
+    font-size: 0.01em;
+}
+
+.progressBar {
+    width: 525px;
+    padding: 0px;
+    background: #fefefe;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    font-size: 2em;
+    text-align: center;
+}
+

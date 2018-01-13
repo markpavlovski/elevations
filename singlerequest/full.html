@@ -1,0 +1,48 @@
+<head>
+	
+<style>
+		html {
+		    background: #fefefe;
+		}
+		.container {
+		    width: 1050px;
+		    padding: 0px;
+		    background: #fefefe;
+		    margin: auto;
+		    margin-top: 5%;
+		    margin-bottom: 5%;
+		}
+		.container::after {
+		    display: block;
+		    clear: both;
+		    content: "";
+		}
+		.cell {
+		    float: left;
+		    background: #fefefe;
+		    text-align: center;
+		    line-height: 25px;
+		    width: 25px; 
+		    height: 25px;
+		}
+		canvas { 	width: 100%; 
+					height: 100%; 
+					valign: auto;
+			   		margin-bottom: 10%;
+				}
+</style>
+
+
+</head>
+<body style="overflow-x: hidden;">
+<div id = "container" class = "container">
+</div>
+
+<div id = "canvas"></div>
+<script src="threejs/three.min.js" type="text/javascript"></script>
+<script src="geometry.js" type="text/javascript"></script>
+<script src="full.js" type="text/javascript"></script>
+
+<script async defer 
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwmZ1I14N-upzFgZeRcbxi9BBE5A72Ax0&callback=initMap">
+</script>

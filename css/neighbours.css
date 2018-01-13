@@ -1,0 +1,35 @@
+html {
+	background: #fefefe;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+
+
+.display {
+    width: 525px;
+    padding: 0px;
+    background: #fefefe;
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.display::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
+.cell {
+    float: left;
+    background: #fefefe;
+    text-align: center;
+    line-height: 25px;
+    width: 25px; 
+    height: 25px;
+    font-size: 0.75em;
+}
+
