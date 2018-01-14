@@ -243,7 +243,7 @@ class ShadedTable {
 
 
 var matrix = new Matrix(30,50);
-matrix.setToRandom(1,.9)
+matrix.setToRandom(1,.85)
 
 var labeled = new SingleLabelMatrix(matrix);
 var labelMatrix = labeled.getLabels();
