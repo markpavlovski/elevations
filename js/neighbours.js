@@ -216,11 +216,12 @@ class ShadedTable {
 		for (var i =0; i< this.rows; i++){
 			for (var j =0; j< this.columns; j++){
 				if (typeof this.labelMatrix.data[i][j] === 'number'){
-					color = 230 - Math.floor(this.labelMatrix.data[i][j]/(max-min)*200);
+					color = Math.floor(255*.95 - this.labelMatrix.data[i][j]/(max-min)*255*.95);
+					this.colorMatrix.data[i][j] = (255).toString() +","+color.toString()+","+(84).toString();
 				} else {
 					color = 255;
+					this.colorMatrix.data[i][j] = color.toString() +","+(255).toString()+","+(255).toString();
 				}
-				this.colorMatrix.data[i][j] = color.toString() +","+color.toString()+","+color.toString();
 				console.log(this.colorMatrix.data[i][j])
 			}
 		}
