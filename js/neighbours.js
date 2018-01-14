@@ -67,6 +67,21 @@ class Matrix {
 			}
 		}
 	}
+	setToRandomFriendly(k,prob,friendlyprob){
+		if (prob === undefined){
+			prob = 1;
+		}
+		for (var i = 0; i < this.rows; i++){
+			for (var j = 0; j < this.columns; j++){
+				this.data[i][j] = randomInt(k)*conditionalIncludeFactor(prob);
+				if(this.data[i][j] === 0 &&  i > 0 && j > 0){
+					if (this.data[i-1][j] === 1 || this.data[i][j-1] === 1 || this.data[i-1][j-1] === 1 ){
+						this.data[i][j] = conditionalIncludeFactor(friendlyprob);
+					}
+				}
+			}
+		}
+	}
 	setToZero(){
 		this.setToValue(0);
 	}
@@ -216,13 +231,13 @@ class ShadedTable {
 		for (var i =0; i< this.rows; i++){
 			for (var j =0; j< this.columns; j++){
 				if (typeof this.labelMatrix.data[i][j] === 'number'){
+					// colors are assigned based on the gradient picked in colors.html
 					color = Math.floor(255*.95 - this.labelMatrix.data[i][j]/(max-min)*255*.95);
 					this.colorMatrix.data[i][j] = (255).toString() +","+color.toString()+","+(84).toString();
 				} else {
 					color = 255;
-					this.colorMatrix.data[i][j] = color.toString() +","+(255).toString()+","+(255).toString();
+					this.colorMatrix.data[i][j] = color.toString() +","+ color.toString() +","+color.toString() ;
 				}
-				console.log(this.colorMatrix.data[i][j])
 			}
 		}
 	}
@@ -243,7 +258,9 @@ class ShadedTable {
 
 
 var matrix = new Matrix(30,50);
-matrix.setToRandom(1,.85)
+matrix.setToRandomFriendly(1,.35,.35)
+//matrix.setToRandom(1,.85)
+
 
 var labeled = new SingleLabelMatrix(matrix);
 var labelMatrix = labeled.getLabels();
