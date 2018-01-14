@@ -335,10 +335,9 @@ class ShadedTable {
 
 
 var matrix = new Matrix(30,50);
-matrix.setToRandom(1,.9)
+matrix.setToRandom(2,.9)
 
 var labeled = new MultiLabelMatrix(matrix);
-var labeled = new SingleLabelMatrix(matrix);
 var labelMatrix = labeled.getLabels();
 var displayMatrix = new ShadedTable(matrix,labelMatrix, 25, "display");
 displayMatrix.render();
