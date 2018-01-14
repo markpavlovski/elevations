@@ -211,16 +211,17 @@ class ShadedTable {
 	}
 	assignColor(){
 		var max = this.labelMatrix.getMax();
-		console.log(max)
 		var min = this.labelMatrix.getMin();
-		console.log(min)
+		var color = 0;
 		for (var i =0; i< this.rows; i++){
 			for (var j =0; j< this.columns; j++){
 				if (typeof this.labelMatrix.data[i][j] === 'number'){
-					this.colorMatrix.data[i][j] = 230 - Math.floor(this.labelMatrix.data[i][j]/(max-min)*200);
+					color = 230 - Math.floor(this.labelMatrix.data[i][j]/(max-min)*200);
 				} else {
-					this.colorMatrix.data[i][j] = 255
+					color = 255;
 				}
+				this.colorMatrix.data[i][j] = color.toString() +","+color.toString()+","+color.toString();
+				console.log(this.colorMatrix.data[i][j])
 			}
 		}
 	}
@@ -229,7 +230,7 @@ class ShadedTable {
 
 		for (var i =0; i< this.rows; i++){
 			for (var j =0; j< this.columns; j++){
-				this.HTMLString += "<div class='cell' id = 'cell' style='width: "+ this.cellSize + "px; height: "+ this.cellSize + "px; background: RGB("+ this.colorMatrix.data[i][j] + ", " + this.colorMatrix.data[i][j] + ", " + this.colorMatrix.data[i][j] + ");'>"+this.labelMatrix.data[i][j]+"</div>"
+				this.HTMLString += "<div class='cell' id = 'cell' style='width: "+ this.cellSize + "px; height: "+ this.cellSize + "px; background: RGB("+ this.colorMatrix.data[i][j] + ");'>"+this.labelMatrix.data[i][j]+"</div>"
 			}
 		}
 
