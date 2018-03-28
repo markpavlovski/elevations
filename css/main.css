@@ -1,3 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Cabin:300,400,500,600,700");
+
+
+
+* {
+	margin: 0;
+	padding: 0;
+	text-transform: uppercase;
+	font-family: 'Roboto', sans-serif;
+	scroll-behavior: smooth;
+	color: rgba(51,51,51,1)
+}
+
+h1, #progressBar {
+	font-size: 14px;
+	font-weight: bold;
+	margin: 30px auto;
+}
+
+
+
 html {
 	background: #fefefe;
 }
@@ -6,9 +27,9 @@ body {
     overflow-x: hidden;
 }
 
-canvas { 	
-	width: 100%; 
-	height: 100%; 
+canvas {
+	width: 100%;
+	height: 100%;
 	valign: auto;
 	margin-bottom: 10%;
 }
@@ -49,13 +70,13 @@ button {
     background: #fefefe;
     text-align: center;
     line-height: 25px;
-    width: 25px; 
+    width: 25px;
     height: 25px;
     font-size: 0.01em;
 }
 
 .progressBar {
-    width: 525px;
+    width: 100%;
     padding: 0px;
     background: #fefefe;
     margin: auto;
@@ -64,4 +85,3 @@ button {
     font-size: 2em;
     text-align: center;
 }
-

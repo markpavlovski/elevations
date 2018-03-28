@@ -31,7 +31,7 @@ function Shade(pct) {
 // Get User Inputs
 var inputloc = prompt("Please enter coordinates (default is Lighthouse Roasters in Fremont):", "47.659064, -122.354199");
 var scale = prompt("Please input scale: (1 corresponds to the length of one block N-S)", 1);
-var gridRadius = prompt("Please enger grid radius (0 is equivalent to 1 x 1 tiling, gridRadius of 2 equivalent to 5 x 5 tiling, etc.)",0);
+var gridRadius = prompt("Please enter grid radius (0 is equivalent to 1 x 1 tiling, gridRadius of 2 equivalent to 5 x 5 tiling, etc.)",0);
 var loc = inputloc.split(", ");
 
 // Defaults
@@ -47,16 +47,16 @@ var gridSize = gridLength ** 2;
 container = document.getElementById('container');
 container.style.width = 25 * tileLength * gridLength + "px";
 progressBar = document.getElementById('progressBar');
-progressBar.style.width = 25 * tileLength * gridLength + "px";
+// progressBar.style.width = 25 * tileLength * gridLength + "px";
 
 // Stage Request Inputs
 var middleTileCenter = {
-	lat: parseFloat(loc[0]), 
+	lat: parseFloat(loc[0]),
 	lng: parseFloat(loc[1])
 };
 
 var middleTileTopLeft = {
-	lat: middleTileCenter.lat + tileRadius * step, 
+	lat: middleTileCenter.lat + tileRadius * step,
 	lng: middleTileCenter.lng - tileRadius * step
 };
 
@@ -85,8 +85,8 @@ function initMap(inputTopLeft) {
 	for ( var i = 0; i < 2 * tileRadius + 1; i++) {
 		for (var j = 0; j < 2 * tileRadius + 1; j ++){
 			requestLocations.push({
-					lat: inputTopLeft.lat - step * i , 
-					lng: inputTopLeft.lng + step * j, 
+					lat: inputTopLeft.lat - step * i ,
+					lng: inputTopLeft.lng + step * j,
 			})
 		}
 	}
@@ -131,20 +131,20 @@ function visualizeResults(){
 	tableHTMLStringNoElv = ""
 	for (var l =0; l < gridLength; l++){
 		row = multipleResults.slice(l*gridLength, (l+1)*gridLength)
-			
+
 		for (var k =0; k < tileLength; k++){
 			for (var i =0; i < gridLength; i++){
 				for (var j=0; j < tileLength; j++){
 
 					var newVertex = row[i][tileLength*k + j]
-					var cellNumber = l*tileSize*gridLength + k*gridLength*tileLength + i*tileLength + j	
+					var cellNumber = l*tileSize*gridLength + k*gridLength*tileLength + i*tileLength + j
 
 					elevationData.push(newVertex);
 					tableHTMLString += "<div class='cell' id='cell" + cellNumber+"''>"+Math.max(Math.round(newVertex.elv),-1)+"</div>";
 					tableHTMLStringNoElv += "<div class='cell' id='cell" + cellNumber+"''> </div>";
 
-					if (newVertex.elv < minElv){ minElv = newVertex.elv} 
-					if (newVertex.elv > maxElv){ maxElv = newVertex.elv} 
+					if (newVertex.elv < minElv){ minElv = newVertex.elv}
+					if (newVertex.elv > maxElv){ maxElv = newVertex.elv}
 				}
 			}
 		}
@@ -157,9 +157,9 @@ function visualizeResults(){
 		document.getElementById('cell' + i).style.background = cellColor
 	}
 	document.getElementById('cell'+Math.floor((elevationData.length)/2)).style.color = '#ccffff';
-	progressBar.innerHTML = "Done"
+	progressBar.innerHTML = `<a href="#canvas"><i class="fas fa-arrow-circle-down" style="font-size: 40px;"></i></a>`
 	// Download Elevation Data
-	download('testss', JSON.stringify(elevationData));
+	// download('testss', JSON.stringify(elevationData));
 	myString = JSON.stringify(elevationData);
 	// Load THREEJS model
 	loadScene()
