@@ -3,7 +3,7 @@ function loadScene(){
 
 	//Stage standard variables
 	var scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0xffffff );
+	scene.background = new THREE.Color( 0xf2f2f2 );
 
 	var camera = new THREE.PerspectiveCamera(75, window.innerWidth/ window.innerHeight / 1.0, 1, 1000000);
 

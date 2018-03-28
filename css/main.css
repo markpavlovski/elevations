@@ -14,7 +14,14 @@
 h1, #progressBar {
 	font-size: 14px;
 	font-weight: bold;
-	margin: 30px auto;
+	margin: 20px auto;
+}
+
+
+h2 {
+	font-size: 10px;
+	font-weight: bold;
+	margin-bottom: 60px;
 }
 
 
