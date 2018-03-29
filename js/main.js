@@ -145,6 +145,39 @@ for (var i = 0; i < tileAnchors.length; i++){
 
 
 setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
+
+
+
+//  Trying something crazy here
+//
+// let apiCall = (i)=>{
+//   initMap(tileAnchors[i]);
+//   progressBar.innerHTML = "Gathering Data: " + Math.round(i / tileAnchors.length * 100) +"%"
+// }
+//
+//
+//
+// async function vizzyResBoi(i){
+//   await apiCall(i)
+//   // return i < tileAnchors.length ? vizzyResBoi(i++) : visualizeResults()
+// }
+//
+// vizzyResBoi(0)
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // setTimeout(,tileAnchors.length*deltaTime);
 // async function  vizzyResBoi(){
 //   let results = await visualizeResults()
