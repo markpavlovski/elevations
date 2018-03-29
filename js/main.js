@@ -51,12 +51,12 @@ progressBar.style.width = 25 * tileLength * gridLength + "px";
 
 // Stage Request Inputs
 var middleTileCenter = {
-	lat: parseFloat(loc[0]), 
+	lat: parseFloat(loc[0]),
 	lng: parseFloat(loc[1])
 };
 
 var middleTileTopLeft = {
-	lat: middleTileCenter.lat + tileRadius * step, 
+	lat: middleTileCenter.lat + tileRadius * step,
 	lng: middleTileCenter.lng - tileRadius * step
 };
 
@@ -85,8 +85,8 @@ function initMap(inputTopLeft) {
 	for ( var i = 0; i < 2 * tileRadius + 1; i++) {
 		for (var j = 0; j < 2 * tileRadius + 1; j ++){
 			requestLocations.push({
-					lat: inputTopLeft.lat - step * i , 
-					lng: inputTopLeft.lng + step * j, 
+					lat: inputTopLeft.lat - step * i ,
+					lng: inputTopLeft.lng + step * j,
 			})
 		}
 	}
@@ -117,7 +117,13 @@ for (var i = 0; i < tileAnchors.length; i++){
 		j++;
 	},i*deltaTime);
 }
-setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
+// setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
+// setTimeout(,tileAnchors.length*deltaTime);
+async function  vizzyResBoi(){
+  let results = await visualizeResults()
+  return results
+}
+vizzyResBoi()
 
 var minElv = Number.MAX_VALUE
 var maxElv = -1
@@ -131,20 +137,20 @@ function visualizeResults(){
 	tableHTMLStringNoElv = ""
 	for (var l =0; l < gridLength; l++){
 		row = multipleResults.slice(l*gridLength, (l+1)*gridLength)
-			
+
 		for (var k =0; k < tileLength; k++){
 			for (var i =0; i < gridLength; i++){
 				for (var j=0; j < tileLength; j++){
 
 					var newVertex = row[i][tileLength*k + j]
-					var cellNumber = l*tileSize*gridLength + k*gridLength*tileLength + i*tileLength + j	
+					var cellNumber = l*tileSize*gridLength + k*gridLength*tileLength + i*tileLength + j
 
 					elevationData.push(newVertex);
 					tableHTMLString += "<div class='cell' id='cell" + cellNumber+"''>"+Math.max(Math.round(newVertex.elv),-1)+"</div>";
 					tableHTMLStringNoElv += "<div class='cell' id='cell" + cellNumber+"''> </div>";
 
-					if (newVertex.elv < minElv){ minElv = newVertex.elv} 
-					if (newVertex.elv > maxElv){ maxElv = newVertex.elv} 
+					if (newVertex.elv < minElv){ minElv = newVertex.elv}
+					if (newVertex.elv > maxElv){ maxElv = newVertex.elv}
 				}
 			}
 		}
