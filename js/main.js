@@ -187,15 +187,12 @@ function initMap(inputTopLeft) {
 //
 // // setTimeout(,tileAnchors.length*deltaTime);
 async function vizzyResBoi(i) {
-  if (i >= tileAnchors.length) {
-    console.log("")
-    return true
-  } else {
+  if (i < tileAnchors.length) {
     let response = await initMap(tileAnchors[i])
     console.log('after initMap')
     responseArray.push(response)
     i++
-    return await setTimeout(()=>vizzyResBoi(i),4000)
+    return await setTimeout(() => vizzyResBoi(i), 3000)
   }
 }
 vizzyResBoi(0)
