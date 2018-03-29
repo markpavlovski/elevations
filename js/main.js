@@ -1,3 +1,18 @@
+
+// Get User Inputs
+// var inputloc = prompt("Please enter coordinates (default is Lighthouse Roasters in Fremont):", "47.659064, -122.354199");
+// var scale = prompt("Please input scale: (1 corresponds to the length of one block N-S)", 1);
+// var gridRadius = prompt("Please enger grid radius (0 is equivalent to 1 x 1 tiling, gridRadius of 2 equivalent to 5 x 5 tiling, etc.)",0);
+
+var inputloc = "47.659064, -122.354199"
+var scale = 1
+var gridRadius = 0
+var loc = inputloc.split(", ");
+
+
+
+
+
 //Note to self: latitude is N-S, longitude i E-W
 
 function download(filename, text) {
@@ -28,11 +43,6 @@ function Shade(pct) {
 	return hex
 }
 
-// Get User Inputs
-var inputloc = prompt("Please enter coordinates (default is Lighthouse Roasters in Fremont):", "47.659064, -122.354199");
-var scale = prompt("Please input scale: (1 corresponds to the length of one block N-S)", 1);
-var gridRadius = prompt("Please enger grid radius (0 is equivalent to 1 x 1 tiling, gridRadius of 2 equivalent to 5 x 5 tiling, etc.)",0);
-var loc = inputloc.split(", ");
 
 // Defaults
 var tileRadius = 10;
@@ -79,7 +89,14 @@ for (var i = 0; i < gridLength; i++ ){
 var multipleResults = []
 
 
+
+// Init Map function is the data collection routine
+
 function initMap(inputTopLeft) {
+
+
+  // first the set of locations is created based on teh input location, then requestLocations array is populated.
+  // requestLocations array is a parameter in the API call
 
 	var requestLocations = [];
 	for ( var i = 0; i < 2 * tileRadius + 1; i++) {
@@ -91,25 +108,33 @@ function initMap(inputTopLeft) {
 		}
 	}
 
+  // Initialize & call elevations API
 	var elevator = new google.maps.ElevationService;
+
 	elevator.getElevationForLocations({'locations': requestLocations}, function(results, status) {
-		var elevations = [];
+		// var elevations = [];
 		if (status === 'OK') {
 			//Create elevation table
 			for (var i = 0; i < tileSize; i++){
-				elevations.push(results[i].elevation)
+				// elevations.push(results[i].elevation)
 				requestLocations[i].elv = results[i].elevation
 			}
 			multipleResults.push(requestLocations)
 		} else {
-			console.log("Elevation service failed due to: " + status);
+			console.log("Elevation service failed due to: " + status)
 		}
-	});
+	})
+
 }
 
 
+
+// This loop calls elevation api for a specific set of locations
+
 var deltaTime = 4000; // in milliseconds
 var j = 0;
+
+
 for (var i = 0; i < tileAnchors.length; i++){
 	setTimeout(function(){
 		initMap(tileAnchors[j]);
@@ -117,13 +142,15 @@ for (var i = 0; i < tileAnchors.length; i++){
 		j++;
 	},i*deltaTime);
 }
-// setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
+
+
+setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
 // setTimeout(,tileAnchors.length*deltaTime);
-async function  vizzyResBoi(){
-  let results = await visualizeResults()
-  return results
-}
-vizzyResBoi()
+// async function  vizzyResBoi(){
+//   let results = await visualizeResults()
+//   return results
+// }
+// vizzyResBoi()
 
 var minElv = Number.MAX_VALUE
 var maxElv = -1
