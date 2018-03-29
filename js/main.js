@@ -130,24 +130,24 @@ function initMap(inputTopLeft) {
 
 
 // This loop calls elevation api for a specific set of locations
+//
+// var deltaTime = 4000; // in milliseconds
+// var j = 0;
+//
+//
+// for (var i = 0; i < tileAnchors.length; i++){
+// 	setTimeout(function(){
+// 		initMap(tileAnchors[j]);
+// 		progressBar.innerHTML = "Gathering Data: " + Math.round(j / tileAnchors.length * 100) +"%"
+// 		j++;
+// 	},i*deltaTime);
+// }
+//
+//
+// setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
 
-var deltaTime = 4000; // in milliseconds
-var j = 0;
-
-
-for (var i = 0; i < tileAnchors.length; i++){
-	setTimeout(function(){
-		initMap(tileAnchors[j]);
-		progressBar.innerHTML = "Gathering Data: " + Math.round(j / tileAnchors.length * 100) +"%"
-		j++;
-	},i*deltaTime);
-}
-
-
-setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
-
-
-
+//
+//
 //  Trying something crazy here
 //
 // let apiCall = (i)=>{
@@ -164,6 +164,8 @@ setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
 //
 // vizzyResBoi(0)
 //
+//
+//
 
 
 
@@ -172,18 +174,25 @@ setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
 
 
 
-
-
-
+console.log(tileAnchors.length)
 
 
 
 // setTimeout(,tileAnchors.length*deltaTime);
-// async function  vizzyResBoi(){
-//   let results = await visualizeResults()
-//   return results
-// }
-// vizzyResBoi()
+async function vizzyResBoi(i){
+  if (i >= tileAnchors.length) {
+    return console.log("success")
+  } else {
+    await initMap(tileAnchors[i])
+    i++
+    return vizzyResBoi(i)
+  }
+}
+vizzyResBoi(0)
+
+
+
+
 
 var minElv = Number.MAX_VALUE
 var maxElv = -1
@@ -225,7 +234,7 @@ function visualizeResults(){
 	document.getElementById('cell'+Math.floor((elevationData.length)/2)).style.color = '#ccffff';
 	progressBar.innerHTML = "Done"
 	// Download Elevation Data
-	download('testss', JSON.stringify(elevationData));
+	// download('testss', JSON.stringify(elevationData));
 	myString = JSON.stringify(elevationData);
 	// Load THREEJS model
 	loadScene()
