@@ -108,6 +108,7 @@ class GoogleMapsRequest {
           locations.push({
             lat: el.lat - step * i,
             lng: el.lng + step * j,
+            elv: null
           })
         }
       }
@@ -120,9 +121,60 @@ class GoogleMapsRequest {
   }
 
 
-  fetch() {
+  initMap(inputTopLeft) {
 
+
+    // first the set of locations is created based on teh input location, then requestLocations array is populated.
+    // requestLocations array is a parameter in the API call
+
+    var requestLocations = [];
+    for (var i = 0; i < 2 * tileRadius + 1; i++) {
+      for (var j = 0; j < 2 * tileRadius + 1; j++) {
+        requestLocations.push({
+          lat: inputTopLeft.lat - step * i,
+          lng: inputTopLeft.lng + step * j,
+        })
+      }
+    }
+
+    // Initialize & call elevations API
+    var elevator = new google.maps.ElevationService;
+
+    console.log('getElevationForLocations')
+    return new Promise((resolve, reject) => {
+      elevator.getElevationForLocations({
+        'locations': requestLocations
+      }, function(results, status) {
+        // var elevations = [];
+        if (status === 'OK') {
+          //Create elevation table
+          for (var i = 0; i < tileSize; i++) {
+            // elevations.push(results[i].elevation)
+            requestLocations[i].elv = results[i].elevation
+          }
+          multipleResults.push(requestLocations)
+        } else {
+          console.log("Elevation service failed due to: " + status)
+        }
+
+        resolve()
+      })
+    }).then(() => requestLocations)
   }
+
+
+  async vizzyResBoi(i) {
+    if (i < tileAnchors.length) {
+      let response = await initMap(tileAnchors[i])
+      console.log('after initMap')
+      responseArray.push(response)
+      i++
+      return await setTimeout(() => vizzyResBoi(i), 3000)
+    }
+  }
+  vizzyResBoi(0)
+
+
   //
   // // Get User Inputs
   // // var inputloc = prompt("Please enter coordinates (default is Lighthouse Roasters in Fremont):", "47.659064, -122.354199");
@@ -260,50 +312,50 @@ class GoogleMapsRequest {
   // }
   //
   //
+  // //
+  // // // This loop calls elevation api for a specific set of locations
+  // // //
+  // // // var deltaTime = 4000; // in milliseconds
+  // // // var j = 0;
+  // // //
+  // // //
+  // // // for (var i = 0; i < tileAnchors.length; i++){
+  // // // 	setTimeout(function(){
+  // // // 		initMap(tileAnchors[j]);
+  // // // 		progressBar.innerHTML = "Gathering Data: " + Math.round(j / tileAnchors.length * 100) +"%"
+  // // // 		j++;
+  // // // 	},i*deltaTime);
+  // // // }
+  // // //
+  // // //
+  // // // setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
+  // //
+  // // //
+  // // //
+  // // //  Trying something crazy here
+  // // //
+  // // // let apiCall = (i)=>{
+  // // //   initMap(tileAnchors[i]);
+  // // //   progressBar.innerHTML = "Gathering Data: " + Math.round(i / tileAnchors.length * 100) +"%"
+  // // // }
+  // // //
+  // // //
+  // // //
+  // // // async function vizzyResBoi(i){
+  // // //   await apiCall(i)
+  // // //   // return i < tileAnchors.length ? vizzyResBoi(i++) : visualizeResults()
+  // // // }
+  // // //
+  // // // vizzyResBoi(0)
+  // // //
+  // // //
+  // // //
+  // //
+  // //
   //
-  // // This loop calls elevation api for a specific set of locations
-  // //
-  // // var deltaTime = 4000; // in milliseconds
-  // // var j = 0;
-  // //
-  // //
-  // // for (var i = 0; i < tileAnchors.length; i++){
-  // // 	setTimeout(function(){
-  // // 		initMap(tileAnchors[j]);
-  // // 		progressBar.innerHTML = "Gathering Data: " + Math.round(j / tileAnchors.length * 100) +"%"
-  // // 		j++;
-  // // 	},i*deltaTime);
-  // // }
-  // //
-  // //
-  // // setTimeout(function(){visualizeResults();},tileAnchors.length*deltaTime);
-  //
-  // //
-  // //
-  // //  Trying something crazy here
-  // //
-  // // let apiCall = (i)=>{
-  // //   initMap(tileAnchors[i]);
-  // //   progressBar.innerHTML = "Gathering Data: " + Math.round(i / tileAnchors.length * 100) +"%"
-  // // }
-  // //
-  // //
-  // //
-  // // async function vizzyResBoi(i){
-  // //   await apiCall(i)
-  // //   // return i < tileAnchors.length ? vizzyResBoi(i++) : visualizeResults()
-  // // }
-  // //
-  // // vizzyResBoi(0)
-  // //
-  // //
-  // //
-  //
-  //
-  //
-  //
-  //
-  //
+
+
+
   //
   // //
   // // console.log(tileAnchors.length)
@@ -321,14 +373,14 @@ class GoogleMapsRequest {
   //   }
   // }
   // vizzyResBoi(0)
-  //
-  // // let k = 0
-  // // vizzyResBoi(k)
-  // //   .then(() => {
-  // //     console.log('done?');
-  // //   })
-  //
-  //
+
+  // let k = 0
+  // vizzyResBoi(k)
+  //   .then(() => {
+  //     console.log('done?');
+  //   })
+
+
   //
   //
   // var minElv = Number.MAX_VALUE
