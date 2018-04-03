@@ -1,12 +1,5 @@
 console.log("custom js loaded")
 
-const gatherData = (coordinates, scale, radius) => {
-  const data = {
-    name: "new data",
-    random: Math.random()
-  }
-  new Card(coordinates, scale, radius, data)
-}
 
 document.querySelector("#gather-data").addEventListener("click", (event) => {
   const coordinates = document.querySelector("input#coordinates").value
@@ -36,11 +29,16 @@ class Card {
         <p class="label">Radius:</p>
         <p id="radius">${radius}</p>
       </div>
-      <div class="card-right"><div class="button" id="load-data">load</div><div class="button" id="remove-card">remove</div></div>
+      <div class="card-right"><div class="button" id="load-data">RENDER</div><div class="button" id="remove-card">remove</div></div>
     `
     main.appendChild(card)
 
-    card.querySelector("#remove-card").addEventListener("click", () => card.parentNode.removeChild(card))
+    card.querySelector("#remove-card").addEventListener("click", () => {
+      card.parentNode.removeChild(card)
+      let storedCards = LocalStorage.get("elevations") ? LocalStorage.get("elevations") : []
+      storedCards = storedCards.filter(el => el.id !== card.id)
+      LocalStorage.set("elevations",storedCards)
+    })
     card.querySelector("#load-data").addEventListener("click", () => this.renderCard(this.data))
   }
 
@@ -137,7 +135,7 @@ class ElevationData {
       this.createElevationData()
       const id = `${this.coordinates} - ${this.scale} - ${this.radius}`
       this.renderCard(this.coordinates,this.scale,this.radius,this.dataMatrix,id)
-      LocalStorage.set(id,{coordinates:this.coordinates,scale:this.scale,radius:this.radius,data:this.dataMatrix})
+      this.persistToStorage(this.coordinates,this.scale,this.radius,this.dataMatrix,id)
     }
   }
 
@@ -201,5 +199,14 @@ class ElevationData {
     const card = new Card(coordinates, scale, radius, dataMatrix, id)
   }
 
+  persistToStorage(coordinates,scale,radius,dataMatrix,id){
+    const storedCards = LocalStorage.get("elevations") ? LocalStorage.get("elevations") : []
+    storedCards.push({coordinates,scale,radius,dataMatrix,id})
+    LocalStorage.set("elevations",storedCards)
+  }
 
 }
+
+
+const gatherData = (coordinates, scale, radius) => new ElevationData(coordinates, scale, radius)
+LocalStorage.get("elevations").forEach(({coordinates,scale,radius,dataMatrix,id})=>new Card(coordinates,scale,radius,dataMatrix,id))
