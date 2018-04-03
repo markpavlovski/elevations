@@ -56,6 +56,7 @@ class GoogleMapsRequest {
     this.radius = radius
     this.requestLocations = this.getRequestLocations()
     this.responseArray = []
+    this.multipleResults = []
 
     console.log({
       coordinates,
@@ -137,11 +138,11 @@ class GoogleMapsRequest {
         // var elevations = [];
         if (status === 'OK') {
           //Create elevation table
-          for (var i = 0; i < tileSize; i++) {
+          for (var i = 0; i < locations[0].length; i++) {
             // elevations.push(results[i].elevation)
             locations[i].elv = results[i].elevation
           }
-          multipleResults.push(locations)
+          // this.multipleResults.push(locations)
         } else {
           console.log("Elevation service failed due to: " + status)
         }
@@ -155,7 +156,7 @@ class GoogleMapsRequest {
     if (i < this.requestLocations.length) {
       let response = await this.initMap(this.requestLocations[i])
       console.log('after initMap')
-      responseArray.push(response)
+      this.responseArray.push(response)
       i++
       return await setTimeout(() => this.requestElevations(i), 3000)
     }
