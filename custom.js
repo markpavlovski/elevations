@@ -52,7 +52,7 @@ class Card {
 
 
 class ElevationData {
-  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 1) {
+  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 0) {
     this.coordinates = coordinates
     this.scale = scale
     this.radius = radius
@@ -162,7 +162,7 @@ class ElevationData {
     console.log("create elevation data")
     const tileLength = 21
     const tileSize = tileLength ** 2
-    const gridLength = 3
+    const gridLength = 2* this.radius + 1
     const matrixRowLength = tileLength * gridLength
     console.log(matrixRowLength)
     let matrixRow = []
@@ -185,6 +185,7 @@ class ElevationData {
               matrixRow = []
             }
           }
+          this.elevationData.push(matrixRow)
         }
       }
     }
