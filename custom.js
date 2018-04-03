@@ -55,15 +55,16 @@ class GoogleMapsRequest {
     this.scale = scale
     this.radius = radius
     this.requestLocations = this.getRequestLocations()
+    this.responseArray = []
 
     console.log({
       coordinates,
       scale,
       radius
     })
-    console.log(this.requestInputs)
+    console.log(this.requestLocations)
 
-    this.vizzyResBoi(0)
+    this.requestElevations()
 
   }
 
@@ -117,9 +118,6 @@ class GoogleMapsRequest {
       }
       requestLocations.push(locations)
     })
-
-
-    console.log(requestLocations)
     return requestLocations
   }
 
@@ -153,13 +151,13 @@ class GoogleMapsRequest {
   }
 
 
-  async vizzyResBoi(i) {
-    if (i < tileAnchors.length) {
-      let response = await initMap(tileAnchors[i])
+  async requestElevations(i=0) {
+    if (i < this.requestLocations.length) {
+      let response = await this.initMap(this.requestLocations[i])
       console.log('after initMap')
       responseArray.push(response)
       i++
-      return await setTimeout(() => vizzyResBoi(i), 3000)
+      return await setTimeout(() => this.requestElevations(i), 3000)
     }
   }
 
