@@ -62,6 +62,9 @@ class GoogleMapsRequest {
       radius
     })
     console.log(this.requestInputs)
+
+    this.vizzyResBoi(0)
+
   }
 
   getRequestLocations() {
@@ -121,45 +124,32 @@ class GoogleMapsRequest {
   }
 
 
-  initMap(inputTopLeft) {
+  initMap(locations) {
 
-
-    // first the set of locations is created based on teh input location, then requestLocations array is populated.
-    // requestLocations array is a parameter in the API call
-
-    var requestLocations = [];
-    for (var i = 0; i < 2 * tileRadius + 1; i++) {
-      for (var j = 0; j < 2 * tileRadius + 1; j++) {
-        requestLocations.push({
-          lat: inputTopLeft.lat - step * i,
-          lng: inputTopLeft.lng + step * j,
-        })
-      }
-    }
 
     // Initialize & call elevations API
-    var elevator = new google.maps.ElevationService;
+
+    let elevator = new google.maps.ElevationService;
 
     console.log('getElevationForLocations')
     return new Promise((resolve, reject) => {
       elevator.getElevationForLocations({
-        'locations': requestLocations
+        'locations': locations
       }, function(results, status) {
         // var elevations = [];
         if (status === 'OK') {
           //Create elevation table
           for (var i = 0; i < tileSize; i++) {
             // elevations.push(results[i].elevation)
-            requestLocations[i].elv = results[i].elevation
+            locations[i].elv = results[i].elevation
           }
-          multipleResults.push(requestLocations)
+          multipleResults.push(locations)
         } else {
           console.log("Elevation service failed due to: " + status)
         }
-
         resolve()
       })
-    }).then(() => requestLocations)
+    }).then(() => locations)
   }
 
 
@@ -172,7 +162,6 @@ class GoogleMapsRequest {
       return await setTimeout(() => vizzyResBoi(i), 3000)
     }
   }
-  vizzyResBoi(0)
 
 
   //
