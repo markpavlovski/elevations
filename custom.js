@@ -49,7 +49,7 @@ class Card {
 
 
 
-class GoogleMapsRequest {
+class ElevationData {
   constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 1) {
     this.coordinates = coordinates
     this.scale = scale
@@ -85,18 +85,22 @@ class GoogleMapsRequest {
     const middleTileCenter = {}
     const middleTileTopLeft = {}
     const gridTopLeft = {}
-    //
+
+    // Center coordinate of center tile is the coordinate requested by the user
     middleTileCenter.lat = parseFloat(this.coordinates.split(",")[0])
     middleTileCenter.lng = parseFloat(this.coordinates.split(",")[1])
-    //
+
+    // Top left coordinate of the center tile is the starting anchor for the elevation coordinate 'matrix'
     middleTileTopLeft.lat = middleTileCenter.lat + tileRadius * step
     middleTileTopLeft.lng = middleTileCenter.lng - tileRadius * step
-    //
+
+    // Top left coordinate of the entir grid, teh same as the top left coordinate of the top left tile
     gridTopLeft.lat = middleTileTopLeft.lat + gridRadius * tileLength * step
     gridTopLeft.lng = middleTileTopLeft.lng - gridRadius * tileLength * step
     //
 
 
+    // Tile anchors are all of the top left coordinates of al of the tiles, tiled one row at a time
     for (let i = 0; i < gridLength; i++) {
       for (let j = 0; j < gridLength; j++) {
         tileAnchors.push({
@@ -106,6 +110,7 @@ class GoogleMapsRequest {
       }
     }
 
+    // Location matrix for each tile is created using the same process, just different anchor coordinate
     tileAnchors.forEach(el => {
       let locations = []
       for (var i = 0; i < 2 * tileRadius + 1; i++) {
@@ -119,11 +124,22 @@ class GoogleMapsRequest {
       }
       requestLocations.push(locations)
     })
+
+    // requestLocations is an array of arrays. Each sub-array is an array of coordinates for each tile, row-by-row
     return requestLocations
   }
 
 
-  initMap(locations, responseArray) {
+  async requestElevations(i = 0, responseArray = this.responseArray) {
+    if (i < this.requestLocations.length) {
+      let response = await this.googleMapsRequest(this.requestLocations[i], responseArray)
+      console.log('after initMap')
+      i++
+      return await setTimeout(() => this.requestElevations(i, responseArray), 3000)
+    }
+  }
+
+  googleMapsRequest(locations, responseArray) {
     console.log(locations)
     // Initialize & call elevations API
     let elevator = new google.maps.ElevationService;
@@ -144,16 +160,6 @@ class GoogleMapsRequest {
   }
 
 
-  async requestElevations(i=0, responseArray=this.responseArray) {
-    if (i < this.requestLocations.length) {
-      let response = await this.initMap(this.requestLocations[i], responseArray)
-      console.log('after initMap')
-      // console.log(response)
-      // this.responseArray.push(response)
-      i++
-      return await setTimeout(() => this.requestElevations(i,responseArray), 3000)
-    }
-  }
 
 
   //
