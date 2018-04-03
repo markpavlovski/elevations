@@ -52,13 +52,13 @@ class Card {
 
 
 class ElevationData {
-  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 0) {
+  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 1) {
     this.coordinates = coordinates
     this.scale = scale
     this.radius = radius
     this.requestLocations = this.getRequestLocations()
     this.responseArray = []
-    this.elevationData = []
+    this.dataMatrix = []
 
     this.requestElevations()
 
@@ -129,7 +129,7 @@ class ElevationData {
   async requestElevations(i = 0, responseArray = this.responseArray) {
     if (i < this.requestLocations.length) {
       let response = await this.googleMapsRequest(this.requestLocations[i], responseArray)
-      console.log('after initMap')
+      console.log(`${i+1}/${(this.radius*2+1)**2}`)
       i++
       return await setTimeout(() => this.requestElevations(i, responseArray), 3000)
     } else {
@@ -138,11 +138,9 @@ class ElevationData {
   }
 
   googleMapsRequest(locations, responseArray) {
-    console.log(locations)
     // Initialize & call elevations API
     let elevator = new google.maps.ElevationService;
 
-    console.log('getElevationForLocations')
     return new Promise((resolve, reject) => {
       elevator.getElevationForLocations({
         'locations': locations
@@ -159,37 +157,39 @@ class ElevationData {
 
   createElevationData(){
 
-    console.log("create elevation data")
     const tileLength = 21
     const tileSize = tileLength ** 2
     const gridLength = 2* this.radius + 1
     const matrixRowLength = tileLength * gridLength
-    console.log(matrixRowLength)
     let matrixRow = []
+    let locationRow
+    let elevationRow
 
-    var row = []
     for (var l = 0; l < gridLength; l++) {
-      row = this.requestLocations.slice(l * gridLength, (l + 1) * gridLength)
+      locationRow = this.requestLocations.slice(l * gridLength, (l + 1) * gridLength)
+      elevationRow = this.responseArray.slice(l * gridLength, (l + 1) * gridLength)
 
       for (var k = 0; k < tileLength; k++) {
         for (var i = 0; i < gridLength; i++) {
           for (var j = 0; j < tileLength; j++) {
 
-            var newVertex = row[i][tileLength * k + j]
-            var cellNumber = l * tileSize * gridLength + k * gridLength * tileLength + i * tileLength + j
+            let newVertex = locationRow[i][tileLength * k + j]
+            newVertex.elv = elevationRow[i][tileLength * k + j].elevation
 
-            matrixRow.push(newVertex)
-            if (matrixRow.length < matrixRowLength) {
-              this.elevationData.push(matrixRow)
-            } else {
+
+            if (matrixRow.length === matrixRowLength){
               matrixRow = []
+              matrixRow.push(newVertex)
+            } else {
+              matrixRow.push(newVertex)
             }
+            if (matrixRow.length === matrixRowLength) this.dataMatrix.push(matrixRow)
+
           }
-          this.elevationData.push(matrixRow)
         }
       }
     }
-    console.log("create elevation data complete")
+    console.log("elevation data complete")
   }
 
 
