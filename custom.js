@@ -52,7 +52,7 @@ class Card {
 
 
 class ElevationData {
-  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 0) {
+  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 1) {
     this.coordinates = coordinates
     this.scale = scale
     this.radius = radius
@@ -108,6 +108,7 @@ class ElevationData {
     // Location matrix for each tile is created using the same process, just different anchor coordinate
     tileAnchors.forEach(el => {
       let locations = []
+      let gridPositions = []
       for (var i = 0; i < 2 * tileRadius + 1; i++) {
         for (var j = 0; j < 2 * tileRadius + 1; j++) {
           locations.push({
@@ -157,9 +158,38 @@ class ElevationData {
   }
 
   createElevationData(){
-    console.log("create elevation data")
-  }
 
+    console.log("create elevation data")
+    const tileLength = 21
+    const tileSize = tileLength ** 2
+    const gridLength = 3
+    const matrixRowLength = tileLength * gridLength
+    console.log(matrixRowLength)
+    let matrixRow = []
+
+    var row = []
+    for (var l = 0; l < gridLength; l++) {
+      row = this.requestLocations.slice(l * gridLength, (l + 1) * gridLength)
+
+      for (var k = 0; k < tileLength; k++) {
+        for (var i = 0; i < gridLength; i++) {
+          for (var j = 0; j < tileLength; j++) {
+
+            var newVertex = row[i][tileLength * k + j]
+            var cellNumber = l * tileSize * gridLength + k * gridLength * tileLength + i * tileLength + j
+
+            matrixRow.push(newVertex)
+            if (matrixRow.length < matrixRowLength) {
+              this.elevationData.push(matrixRow)
+            } else {
+              matrixRow = []
+            }
+          }
+        }
+      }
+    }
+    console.log("create elevation data complete")
+  }
 
 
 
