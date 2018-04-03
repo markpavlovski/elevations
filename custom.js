@@ -17,7 +17,9 @@ document.querySelector("#gather-data").addEventListener("click", (event) => {
 
 class Card {
   constructor(coordinates = "47.659064, -122.354199", scale = "1", radius = "0", data = {}) {
-
+    this.coordinates = coordinates
+    this.scale = scale
+    this.radius = radius
     this.data = data
 
     const main = document.querySelector("main")
@@ -50,20 +52,13 @@ class Card {
 
 
 class ElevationData {
-  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 1) {
+  constructor(coordinates = "47.659064, -122.354199", scale = 1, radius = 0) {
     this.coordinates = coordinates
     this.scale = scale
     this.radius = radius
     this.requestLocations = this.getRequestLocations()
     this.responseArray = []
-    this.multipleResults = []
-
-    console.log({
-      coordinates,
-      scale,
-      radius
-    })
-    console.log(this.requestLocations)
+    this.elevationData = []
 
     this.requestElevations()
 
@@ -136,6 +131,8 @@ class ElevationData {
       console.log('after initMap')
       i++
       return await setTimeout(() => this.requestElevations(i, responseArray), 3000)
+    } else {
+      this.createElevationData()
     }
   }
 
@@ -157,6 +154,10 @@ class ElevationData {
         resolve()
       })
     }).then(() => locations)
+  }
+
+  createElevationData(){
+    console.log("create elevation data")
   }
 
 
