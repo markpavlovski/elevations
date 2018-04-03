@@ -123,11 +123,9 @@ class GoogleMapsRequest {
   }
 
 
-  initMap(locations) {
-
-
+  initMap(locations, responseArray) {
+    console.log(locations)
     // Initialize & call elevations API
-
     let elevator = new google.maps.ElevationService;
 
     console.log('getElevationForLocations')
@@ -135,14 +133,8 @@ class GoogleMapsRequest {
       elevator.getElevationForLocations({
         'locations': locations
       }, function(results, status) {
-        // var elevations = [];
         if (status === 'OK') {
-          //Create elevation table
-          for (var i = 0; i < locations[0].length; i++) {
-            // elevations.push(results[i].elevation)
-            locations[i].elv = results[i].elevation
-          }
-          // this.multipleResults.push(locations)
+          responseArray.push(results)
         } else {
           console.log("Elevation service failed due to: " + status)
         }
@@ -152,13 +144,14 @@ class GoogleMapsRequest {
   }
 
 
-  async requestElevations(i=0) {
+  async requestElevations(i=0, responseArray=this.responseArray) {
     if (i < this.requestLocations.length) {
-      let response = await this.initMap(this.requestLocations[i])
+      let response = await this.initMap(this.requestLocations[i], responseArray)
       console.log('after initMap')
-      this.responseArray.push(response)
+      // console.log(response)
+      // this.responseArray.push(response)
       i++
-      return await setTimeout(() => this.requestElevations(i), 3000)
+      return await setTimeout(() => this.requestElevations(i,responseArray), 3000)
     }
   }
 
