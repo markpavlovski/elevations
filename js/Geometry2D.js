@@ -26,6 +26,16 @@ class Geometry2D {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.container.appendChild(this.renderer.domElement)
 
+    //
+    let sphere = new THREE.Mesh(new THREE.SphereGeometry(100, 5, 5), new THREE.MeshBasicMaterial({
+      color: 0xff0000,
+      wireframe: true,
+      visible: true
+    }))
+    this.group.add(sphere)
+
+
+
     this.animate()
   }
 
