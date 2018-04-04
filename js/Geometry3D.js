@@ -56,7 +56,12 @@ class Geometry3D extends BasicScene {
 
 
     const surfaceGeometry = new THREE.Geometry()
-    this.heatmap.forEach(el=>el.forEach(el=>console.log(el)))
+    this.heatmap.forEach((el,row)=>el.forEach((el,col)=>{
+      console.log(row,col);
+			// geometry.vertices.push(
+			// 	new THREE.Vector3( tileLength*j, el, tileLength*i)
+			// )
+    }))
 
     //
   	// //Generate Mesh
