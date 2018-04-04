@@ -10,8 +10,7 @@ class Matrix {
       }
       this.matrix.push(row)
     }
-    console.log(`${this.m}x${this.n} Matrix`)
-    console.log(this.matrix)
-    // return this.matrix
+    // console.log(`${this.m}x${this.n} Matrix`)
+    return this.matrix
   }
 }

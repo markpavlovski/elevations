@@ -2,11 +2,12 @@ class Geometry2D extends BasicScene {
   constructor(container = document.body, data = {}){
     super(container)
     this.data = data
-    this.initObjects(this.group)
     this.createHeatMap()
+    this.initObjects()
   }
 
-  initObjects(group){
+  initObjects(){
+    let group = this.group
 
     // Empty group - this clears the group of the test objects
     super.clearGroup(group)
@@ -16,10 +17,11 @@ class Geometry2D extends BasicScene {
     var geometry = new THREE.PlaneGeometry( 400, 400, this.data.length, this.data.length );
 
     geometry.faces.forEach((face,idx)=>{
+      let color = new THREE.Color(0,0,1)
       if (idx%4 === 0 || idx%4 === 1){
-        face.vertexColors.push(new THREE.Color(0x515151))
-        face.vertexColors.push(new THREE.Color(0x515151))
-        face.vertexColors.push(new THREE.Color(0x515151))
+        face.vertexColors.push(color)
+        face.vertexColors.push(color)
+        face.vertexColors.push(color)
       } else {
         face.vertexColors.push(new THREE.Color(0xc1c1c1))
         face.vertexColors.push(new THREE.Color(0xc1c1c1))
@@ -49,10 +51,9 @@ class Geometry2D extends BasicScene {
       .reduce((acc,el)=> el > acc ? el : acc ,-Infinity)
     console.log(maxElv)
 
-
-
-
-
+    // this.elevations = new Matrix(size)
+    this.heatmap = this.data.map(el => el.map(el => Math.max(el.elv,0)/(maxElv-minElv)))
+    console.log(this.heatmap)
   }
 
 
