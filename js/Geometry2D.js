@@ -1,52 +1,22 @@
-class Geometry2D {
+class Geometry2D extends BasicScene {
   constructor(container = document.body){
-    this.container = container
-    console.log(container)
+    super(container)
+    this.initObjects(this.group)
+  }
 
-    // Set up scene
-    this.scene = new THREE.Scene()
-    this.scene.background = new THREE.Color(0xf0f0f0)
+  initObjects(group){
 
-    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000)
-    this.camera.position.set(0, 150, 500)
-    this.scene.add(this.camera)
+    // Empty group - this clears the group of the test objects
+    super.clearGroup(group)
 
-    this.light = new THREE.PointLight(0xffffff, 0.8)
-    this.camera.add(this.light)
-
-
-    // Set up group
-    this.group = new THREE.Group()
-    this.group.position.y = 150
-    this.scene.add(this.group)
-
-    //  Renderer settings
-    this.renderer = new THREE.WebGLRenderer({antialias: true})
-    this.renderer.setPixelRatio(window.devicePixelRatio)
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
-    this.container.appendChild(this.renderer.domElement)
-
-    //
-    let sphere = new THREE.Mesh(new THREE.SphereGeometry(100, 5, 5), new THREE.MeshBasicMaterial({
+    // Add objects
+    let box = new THREE.Mesh(new THREE.BoxGeometry(180, 180, 180), new THREE.MeshBasicMaterial({
       color: 0xff0000,
       wireframe: true,
       visible: true
     }))
-    this.group.add(sphere)
-
-
-
-    this.animate()
+    group.add(box)
   }
 
 
-
-  animate() {
-    requestAnimationFrame(this.animate.bind(this))
-    this.render()
-  }
-
-  render() {
-    this.renderer.render(this.scene, this.camera)
-  }
 }
