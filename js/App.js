@@ -13,5 +13,5 @@ document.querySelector("#gather-data").addEventListener("click", (event) => {
 LocalStorage.get("elevations").forEach(({coordinates,scale,radius,dataMatrix,id})=>new Card(coordinates,scale,radius,dataMatrix,id))
 
 // Create 2d heatmap object
-const heatmap = new Geometry2D(document.querySelector(".heatmap"))
-console.log(heatmap)
+// const heatmap = new Geometry2D(document.querySelector(".heatmap"))
+// console.log(heatmap)
