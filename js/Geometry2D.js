@@ -26,19 +26,17 @@ class Geometry2D {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.container.appendChild(this.renderer.domElement)
 
+    this.animate()
   }
 
-  init(){
-    console.log("Init Method")
-  }
 
 
   animate() {
-    requestAnimationFrame(animate)
-    render()
+    requestAnimationFrame(this.animate.bind(this))
+    this.render()
   }
 
   render() {
-    renderer.render(scene, camera)
+    this.renderer.render(this.scene, this.camera)
   }
 }
