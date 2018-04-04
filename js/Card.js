@@ -37,6 +37,8 @@ class Card {
     while(container.firstElementChild) container.removeChild(container.firstElementChild)
     // console.log(data.length)
     const heatmap = new Geometry2D(container,data)
+    const threedee = new Geometry3D(document.querySelector(".threejs"),data)
+
     // console.log(heatmap)
     container.scrollIntoView()
   }
