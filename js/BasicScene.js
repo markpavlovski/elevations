@@ -72,7 +72,6 @@ class BasicScene {
   }
 
   render() {
-    this.group.rotation.y += (this.targetRotation - this.group.rotation.y) * 0.05;
     this.renderer.render(this.scene, this.camera)
   }
 }

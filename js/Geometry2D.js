@@ -9,13 +9,16 @@ class Geometry2D extends BasicScene {
     // Empty group - this clears the group of the test objects
     super.clearGroup(group)
 
-    // Add objects
-    let box = new THREE.Mesh(new THREE.BoxGeometry(180, 180, 180), new THREE.MeshBasicMaterial({
-      color: 0xff0000,
-      wireframe: true,
-      visible: true
-    }))
-    group.add(box)
+    // Create Plane
+    var geometry = new THREE.PlaneGeometry( 400, 400, 20, 20 );
+    var material = new THREE.MeshBasicMaterial( {color: 0xff0000, side: THREE.DoubleSide, wireframe: true} );
+    var plane = new THREE.Mesh( geometry, material );
+    group.add(plane)
+
+
+
+
+
   }
 
 
