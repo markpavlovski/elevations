@@ -3,6 +3,7 @@ class Geometry2D extends BasicScene {
     super(container)
     this.data = data
     this.initObjects(this.group)
+    this.createHeatMap()
   }
 
   initObjects(group){
@@ -29,6 +30,24 @@ class Geometry2D extends BasicScene {
     var material = new THREE.MeshBasicMaterial( {vertexColors: THREE.VertexColors, side: THREE.DoubleSide, wireframe: false} );
     var plane = new THREE.Mesh( geometry, material );
     group.add(plane)
+  }
+
+  createHeatMap(){
+    let size = this.data.length
+
+    let minElv = this.data
+      .map(el => el.reduce(
+        (acc,el)=> Math.max(el.elv,0) < acc ? Math.max(el.elv,0) : acc ,Infinity)
+      )
+      .reduce((acc,el)=> el < acc ? el : acc ,Infinity)
+    console.log(minElv)
+
+    let maxElv = this.data
+      .map(el => el.reduce(
+        (acc,el)=> Math.max(el.elv,0) > acc ? Math.max(el.elv,0) : acc ,-Infinity)
+      )
+      .reduce((acc,el)=> el > acc ? el : acc ,-Infinity)
+    console.log(maxElv)
 
 
 
