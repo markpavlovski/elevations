@@ -17,19 +17,16 @@ class Geometry2D extends BasicScene {
     var geometry = new THREE.PlaneGeometry( 400, 400, this.data.length, this.data.length );
 
     geometry.faces.forEach((face,idx,arr)=>{
-      let color = new THREE.Color(0,0,1)
-      let row = Math.floor(idx / this.data.length /2)
-      let col = (idx / this.data.length /2 - Math.floor(idx / this.data.length /2)) * this.data.length
-      console.log(row, col)
-      if (idx%4 === 0 || idx%4 === 1){
-        face.vertexColors.push(color)
-        face.vertexColors.push(color)
-        face.vertexColors.push(color)
-      } else {
-        face.vertexColors.push(new THREE.Color(0xc1c1c1))
-        face.vertexColors.push(new THREE.Color(0xc1c1c1))
-        face.vertexColors.push(new THREE.Color(0xc1c1c1))
-      }
+
+      const row = Math.floor(idx / this.data.length /2)
+      const col = Math.floor(((idx % (this.data.length * 2)))/2)
+      const greyScale = 1 - this.heatmap[row][col]
+      const color = new THREE.Color(greyScale,greyScale,greyScale)
+
+      face.vertexColors.push(color)
+      face.vertexColors.push(color)
+      face.vertexColors.push(color)
+
     })
 
     var material = new THREE.MeshBasicMaterial( {vertexColors: THREE.VertexColors, side: THREE.DoubleSide, wireframe: false} );
