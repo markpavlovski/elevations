@@ -38,5 +38,6 @@ class Card {
     console.log(data.length)
     const heatmap = new Geometry2D(container,data)
     console.log(heatmap)
+    container.scrollIntoView()
   }
 }
