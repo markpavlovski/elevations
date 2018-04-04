@@ -16,8 +16,11 @@ class Geometry2D extends BasicScene {
     // If shading vertices and letting the shader to interpolate, then need 20 boxes (21 vertices)
     var geometry = new THREE.PlaneGeometry( 400, 400, this.data.length, this.data.length );
 
-    geometry.faces.forEach((face,idx)=>{
+    geometry.faces.forEach((face,idx,arr)=>{
       let color = new THREE.Color(0,0,1)
+      let row = Math.floor(idx / this.data.length /2)
+      let col = (idx / this.data.length /2 - Math.floor(idx / this.data.length /2)) * this.data.length
+      console.log(row, col)
       if (idx%4 === 0 || idx%4 === 1){
         face.vertexColors.push(color)
         face.vertexColors.push(color)
