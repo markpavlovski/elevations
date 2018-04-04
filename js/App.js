@@ -15,3 +15,5 @@ LocalStorage.get("elevations").forEach(({coordinates,scale,radius,dataMatrix,id}
 // Create 2d heatmap object
 // const heatmap = new Geometry2D(document.querySelector(".heatmap"))
 // console.log(heatmap)
+
+const threedee = new Geometry3D(document.querySelector(".threejs"))

@@ -53,7 +53,7 @@ class Geometry2D extends BasicScene {
 
     // this.elevations = new Matrix(size)
     this.heatmap = this.data.map(el => el.map(el => Math.max(el.elv,0)/(maxElv-minElv)))
-    console.log(this.heatmap)
+    // console.log(this.heatmap)
   }
 
 

@@ -35,9 +35,9 @@ class Card {
   renderCard(data) {
     const container = document.querySelector(".heatmap")
     while(container.firstElementChild) container.removeChild(container.firstElementChild)
-    console.log(data.length)
+    // console.log(data.length)
     const heatmap = new Geometry2D(container,data)
-    console.log(heatmap)
+    // console.log(heatmap)
     container.scrollIntoView()
   }
 }
