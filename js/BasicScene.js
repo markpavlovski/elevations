@@ -3,7 +3,7 @@ class BasicScene {
     this.initScene(container)
     this.initTestObjects()
     this.animate()
-    this.handleWindowEvents()
+    this.handleResize()
   }
 
   initScene(container){
@@ -33,6 +33,7 @@ class BasicScene {
     this.renderer.setSize(window.innerWidth, window.innerHeight)
     this.container.appendChild(this.renderer.domElement)
 
+    this.targetRotation = 0
   }
 
   initTestObjects(){
@@ -53,63 +54,14 @@ class BasicScene {
   }
 
 
-
   onWindowResize(){
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  handleWindowEvents(){
-    // //
-    // function onDocumentMouseDown(event) {
-    //   event.preventDefault();
-    //   document.addEventListener('mousemove', onDocumentMouseMove, false);
-    //   document.addEventListener('mouseup', onDocumentMouseUp, false);
-    //   document.addEventListener('mouseout', onDocumentMouseOut, false);
-    //   mouseXOnMouseDown = event.clientX - windowHalfX;
-    //   targetRotationOnMouseDown = targetRotation;
-    // }
-    //
-    // function onDocumentMouseMove(event) {
-    //   mouseX = event.clientX - windowHalfX;
-    //   targetRotation = targetRotationOnMouseDown + (mouseX - mouseXOnMouseDown) * 0.02;
-    // }
-    //
-    // function onDocumentMouseUp(event) {
-    //   document.removeEventListener('mousemove', onDocumentMouseMove, false);
-    //   document.removeEventListener('mouseup', onDocumentMouseUp, false);
-    //   document.removeEventListener('mouseout', onDocumentMouseOut, false);
-    // }
-    //
-    // function onDocumentMouseOut(event) {
-    //   document.removeEventListener('mousemove', onDocumentMouseMove, false);
-    //   document.removeEventListener('mouseup', onDocumentMouseUp, false);
-    //   document.removeEventListener('mouseout', onDocumentMouseOut, false);
-    // }
-    //
-    // function onDocumentTouchStart(event) {
-    //   if (event.touches.length == 1) {
-    //     event.preventDefault();
-    //     mouseXOnMouseDown = event.touches[0].pageX - windowHalfX;
-    //     targetRotationOnMouseDown = targetRotation;
-    //   }
-    // }
-    //
-    // function onDocumentTouchMove(event) {
-    //   if (event.touches.length == 1) {
-    //     event.preventDefault();
-    //     mouseX = event.touches[0].pageX - windowHalfX;
-    //     targetRotation = targetRotationOnMouseDown + (mouseX - mouseXOnMouseDown) * 0.05;
-    //   }
-    // }
 
-
-
-    // WINDOW EVENTS
-    // document.addEventListener('mousedown', this.onDocumentMouseDown, false)
-    // document.addEventListener('touchstart', this.onDocumentTouchStart, false)
-    // document.addEventListener('touchmove', this.onDocumentTouchMove, false)
+  handleResize(){
     window.addEventListener('resize', this.onWindowResize.bind(this), false)
   }
 
@@ -120,6 +72,7 @@ class BasicScene {
   }
 
   render() {
+    this.group.rotation.y += (this.targetRotation - this.group.rotation.y) * 0.05;
     this.renderer.render(this.scene, this.camera)
   }
 }
