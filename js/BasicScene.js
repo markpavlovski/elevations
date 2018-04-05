@@ -69,7 +69,9 @@ class BasicScene {
   animate() {
     requestAnimationFrame(this.animate.bind(this))
     this.render()
-    this.group.rotation.y += .01
+    this.group.rotation.y += .005
+    this.group.rotation.x = 0.75
+
   }
 
   render() {

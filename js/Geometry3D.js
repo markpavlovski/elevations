@@ -53,7 +53,7 @@ class Geometry3D extends BasicScene {
 
     let boxSize = 400
     let tileLength = boxSize / (size - 1)
-    let elevationScale = (maxElv - minElv) * 2
+    let elevationScale = (maxElv - minElv) * 0.3
 
     console.log(tileLength);
 
@@ -68,21 +68,42 @@ class Geometry3D extends BasicScene {
     console.log(surfaceGeometry.vertices)
 
     // Define Faces
-    for (let j = 0; j < tileLength - 1; j++) {
-      for (let i = 0; i < tileLength - 1; i++) {
-        //Facing Up
-        surfaceGeometry.faces.push(new THREE.Face3(tileLength * (j + 1) + i, tileLength * j + i + 1, tileLength * j + i))
-        surfaceGeometry.faces.push(new THREE.Face3(tileLength * j + i + 1, tileLength * (j + 1) + i, tileLength * (j + 1) + i + 1))
+    // for (let j = 0; j < size; j++) {
+    //
+    //   for (let i = 0; i < size; i++) {
+    //     //Facing Up
+    //     surfaceGeometry.faces.push(new THREE.Face3(size * (j + 1) + i, size * j + i + 1, size * j + i))
+    //     surfaceGeometry.faces.push(new THREE.Face3(size * j + i + 1, size * (j + 1) + i, size * (j + 1) + i + 1))
+    //   }
+    // }
+    // console.log(surfaceGeometry.faces)
+
+    // Define faces
+    //
+    for (let row = 0; row < size-1; row++) {
+      for (let col = 0; col < size-1; col++) {
+        surfaceGeometry.faces.push(new THREE.Face3(
+          row * size  + col,
+          (row + 1) * size + col,
+          row * size + col + 1
+        ))
+        surfaceGeometry.faces.push(new THREE.Face3(
+          (row + 1) * size + col,
+          (row + 1) * size + col + 1,
+          row * size + col + 1
+        ))
       }
     }
-    console.log(surfaceGeometry.faces)
 
     surfaceGeometry.computeBoundingSphere()
-  	surfaceGeometry.center()
-  	surfaceGeometry.computeVertexNormals()
-  	surfaceGeometry.computeFaceNormals()
+    surfaceGeometry.center()
+    surfaceGeometry.computeVertexNormals()
+    surfaceGeometry.computeFaceNormals()
 
-    let surfaceMaterial = new THREE.MeshBasicMaterial({color: 0x515151, wireframe: true})
+    let surfaceMaterial = new THREE.MeshBasicMaterial({
+      color: 0x515151,
+      wireframe: true
+    })
     let surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial)
     this.group.add(surface)
 
