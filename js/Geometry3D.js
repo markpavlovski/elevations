@@ -17,16 +17,16 @@ class Geometry3D extends BasicScene {
 
     // Create Plane - the number of squares depends on what we want to do. if shading boxes a solid color then need 21 for base case (22 vertex row).
     // If shading vertices and letting the shader to interpolate, then need 20 boxes (21 vertices)
-    var geom = new THREE.PlaneGeometry(400, 400, 100, 100);
-
-
-    var mat = new THREE.MeshBasicMaterial({
-      vertexColors: THREE.VertexColors,
-      side: THREE.DoubleSide,
-      wireframe: false
-    });
-    var plane = new THREE.Mesh(geom, mat);
-    group.add(plane)
+    // var geom = new THREE.PlaneGeometry(400, 400, 100, 100);
+    //
+    //
+    // var mat = new THREE.MeshBasicMaterial({
+    //   vertexColors: THREE.VertexColors,
+    //   side: THREE.DoubleSide,
+    //   wireframe: false
+    // });
+    // var plane = new THREE.Mesh(geom, mat);
+    // group.add(plane)
 
 
 
@@ -53,7 +53,7 @@ class Geometry3D extends BasicScene {
 
     let boxSize = 400
     let tileLength = boxSize / (size - 1)
-    let elevationScale = (maxElv - minElv) * 0.5
+    let elevationScale = (maxElv - minElv) * 2
 
     console.log(tileLength);
 
