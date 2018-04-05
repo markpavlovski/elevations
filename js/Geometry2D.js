@@ -56,5 +56,12 @@ class Geometry2D extends BasicScene {
     // console.log(this.heatmap)
   }
 
+    animate() {
+      requestAnimationFrame(this.animate.bind(this))
+      this.render()
+      this.group.rotation.y += .000
+      this.group.rotation.x = 0.000
+
+    }
 
 }

@@ -1,11 +1,10 @@
 class Geometry3D extends BasicScene {
-  constructor(container = document.body, data = {}) {
+  constructor(container = document.body, data = {}, scale, radius) {
     super(container)
     this.data = data
+    this.scale = scale
+    this.radius = radius
     this.scene.background = new THREE.Color(0xdddddd)
-
-    // this.data = data
-    // this.createHeatMap()
     this.initObjects()
   }
 
@@ -46,14 +45,16 @@ class Geometry3D extends BasicScene {
     console.log(maxElv)
 
     // this.elevations = new Matrix(size)
-    this.heatmap = this.data.map(el => el.map(el => Math.max(el.elv, 0) / (maxElv - minElv)))
+    this.heatmap = this.data.map(el => el.map(el => Math.max(el.elv, 0)))
     // console.log(this.heatmap)
 
-    console.log(this.heatmap)
+    console.log(this.heatmap.length)
 
     let boxSize = 400
     let tileLength = boxSize / (size - 1)
-    let elevationScale = (maxElv - minElv) * 0.3
+    let elevationScale = 0.5 / this.scale / (2* this.radius + 1)
+    console.log(elevationScale,this.scale,(2* this.radius + 1));
+    // (maxElv - minElv) / this.scale / (2* this.radius + 1) * 0.5
 
     console.log(tileLength);
 
@@ -65,18 +66,7 @@ class Geometry3D extends BasicScene {
         new THREE.Vector3(tileLength * col, el * elevationScale, tileLength * row)
       )
     }))
-    console.log(surfaceGeometry.vertices)
 
-    // Define Faces
-    // for (let j = 0; j < size; j++) {
-    //
-    //   for (let i = 0; i < size; i++) {
-    //     //Facing Up
-    //     surfaceGeometry.faces.push(new THREE.Face3(size * (j + 1) + i, size * j + i + 1, size * j + i))
-    //     surfaceGeometry.faces.push(new THREE.Face3(size * j + i + 1, size * (j + 1) + i, size * (j + 1) + i + 1))
-    //   }
-    // }
-    // console.log(surfaceGeometry.faces)
 
     // Define faces
     //
@@ -107,39 +97,6 @@ class Geometry3D extends BasicScene {
     let surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial)
     this.group.add(surface)
 
-    //
-    // //Generate Mesh
-    // var geometry = new THREE.Geometry();
-    // var fullRow = size
-    // var cellSize = 10
-    // var topHeight = 20
-    // var heightScale = 1
-    //
-    //
-    //  	// Define Vertices
-    // 	for (var i =0; i < fullRow; i++){
-    // 		for (var j=0; j < fullRow; j++){
-    // 			geometry.vertices.push(
-    // 				new THREE.Vector3( cellSize* j, (elevationData[fullRow*i+j].elv-minElv)/heightScale, cellSize*i)
-    // 			)
-    // 		}
-    // 	}
-    //
-    //
-    //
-    //   	// Define Faces
-    // 	for (var j =  0; j < fullRow - 1; j++){
-    // 	for (var i=0; i < fullRow- 1; i++){
-    // 		//Facing Up
-    // 		geometry.faces.push( new THREE.Face3( fullRow * (j + 1) + i, fullRow*j + i+1, fullRow* j + i) )
-    // 		geometry.faces.push( new THREE.Face3( fullRow* j + i+1,fullRow * (j + 1) + i, fullRow * (j + 1) + i + 1) )
-    // 	}
-    // 	}
-    //
-    // 	geometry.computeBoundingSphere();
-    // 	geometry.center()
-    // 	geometry.computeVertexNormals()
-    // 	geometry.computeFaceNormals()
   }
 
 
