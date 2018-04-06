@@ -8,7 +8,7 @@ class Geometry2D extends BasicScene {
 
   initObjects(){
     let group = this.group
-  
+
 
 
     // Empty group - this clears the group of the test objects
@@ -16,7 +16,7 @@ class Geometry2D extends BasicScene {
 
     // Create Plane - the number of squares depends on what we want to do. if shading boxes a solid color then need 21 for base case (22 vertex row).
     // If shading vertices and letting the shader to interpolate, then need 20 boxes (21 vertices)
-    var geometry = new THREE.PlaneGeometry( 400, 400, this.data.length, this.data.length );
+    var geometry = new THREE.PlaneGeometry( 460, 460, this.data.length, this.data.length );
 
     geometry.faces.forEach((face,idx,arr)=>{
 
@@ -34,6 +34,7 @@ class Geometry2D extends BasicScene {
     var material = new THREE.MeshBasicMaterial( {vertexColors: THREE.VertexColors, side: THREE.DoubleSide, wireframe: false} );
     var plane = new THREE.Mesh( geometry, material );
     group.add(plane)
+    group.position.y = 150
   }
 
   createHeatMap(){

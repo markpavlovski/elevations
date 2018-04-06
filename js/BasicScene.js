@@ -83,7 +83,7 @@ class BasicScene {
 
 
   onWindowResize(){
-    this.camera.aspect = window.innerWidth * this.windowX / window.innerHeight * this.windowY;
+    this.camera.aspect = window.innerWidth * this.windowX / window.innerHeight / this.windowY;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth * this.windowX, window.innerHeight * this.windowY);
   }
