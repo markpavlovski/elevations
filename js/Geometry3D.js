@@ -14,21 +14,6 @@ class Geometry3D extends BasicScene {
     // Empty group - this clears the group of the test objects
     super.clearGroup(group)
 
-    // Create Plane - the number of squares depends on what we want to do. if shading boxes a solid color then need 21 for base case (22 vertex row).
-    // If shading vertices and letting the shader to interpolate, then need 20 boxes (21 vertices)
-    // var geom = new THREE.PlaneGeometry(400, 400, 100, 100);
-    //
-    //
-    // var mat = new THREE.MeshBasicMaterial({
-    //   vertexColors: THREE.VertexColors,
-    //   side: THREE.DoubleSide,
-    //   wireframe: false
-    // });
-    // var plane = new THREE.Mesh(geom, mat);
-    // group.add(plane)
-
-
-
 
     let size = this.data.length
 
@@ -69,7 +54,7 @@ class Geometry3D extends BasicScene {
 
 
     // Define faces
-    //
+
     for (let row = 0; row < size-1; row++) {
       for (let col = 0; col < size-1; col++) {
         surfaceGeometry.faces.push(new THREE.Face3(
@@ -99,6 +84,11 @@ class Geometry3D extends BasicScene {
 
   }
 
+  animate() {
+    requestAnimationFrame(this.animate.bind(this))
+    this.controls.update();
+    this.render()
+  }
 
 
 

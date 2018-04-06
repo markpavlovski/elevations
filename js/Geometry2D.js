@@ -8,6 +8,8 @@ class Geometry2D extends BasicScene {
 
   initObjects(){
     let group = this.group
+  
+
 
     // Empty group - this clears the group of the test objects
     super.clearGroup(group)
@@ -51,10 +53,13 @@ class Geometry2D extends BasicScene {
       .reduce((acc,el)=> el > acc ? el : acc ,-Infinity)
     console.log(maxElv)
 
-    // this.elevations = new Matrix(size)
     this.heatmap = this.data.map(el => el.map(el => Math.max(el.elv,0)/(maxElv-minElv)))
-    // console.log(this.heatmap)
   }
+
+
+    initControls(){
+      // Turns off parent controls
+    }
 
     animate() {
       requestAnimationFrame(this.animate.bind(this))
