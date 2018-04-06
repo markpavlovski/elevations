@@ -17,7 +17,7 @@ class BasicScene {
 
     this.windowX = .8
     this.windowY = .8
-    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth * this.windowX / window.innerHeight / this.windowY, 1, 1000)
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth * this.windowX / window.innerHeight / this.windowY, 1, 1500)
     this.camera.position.set(0, 150, 500)
     this.scene.add(this.camera)
 

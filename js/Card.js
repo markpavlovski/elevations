@@ -42,6 +42,17 @@ class Card {
     // console.log(data.length)
     const heatmap = new Geometry2D(container2d,data)
     const threedee = new Geometry3D(container3d,data,scale,radius)
+    gui = new dat.GUI({ autoPlace: false });
+
+    gui.domElement.style = `position: absolute; top: ${
+      document.querySelector(".threejs").offsetTop + document.querySelector(".threejs").clientHeight * 0.93
+    }px; left: ${
+      document.querySelector(".threejs").clientWidth * 0.10
+    }px`
+    document.querySelector(".threejs").appendChild(gui.domElement);
+    gui.add(guiObject, 'gElevationScale', 0, 5)
+
+
 
     // console.log(heatmap)
     container3d.scrollIntoView()

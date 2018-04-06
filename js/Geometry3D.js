@@ -1,3 +1,8 @@
+
+//
+// var gui = new dat.GUI();
+// gui.add(guiObject, 'gElevationScale', 0, 5);
+
 class Geometry3D extends BasicScene {
   constructor(container = document.body, data = {}, scale, radius) {
     super(container)
@@ -6,6 +11,7 @@ class Geometry3D extends BasicScene {
     this.radius = radius
     this.scene.background = new THREE.Color(0xdddddd)
     this.initObjects()
+    this.gElevationScale = 1
   }
 
   initObjects() {
@@ -46,9 +52,10 @@ class Geometry3D extends BasicScene {
 
 
     const surfaceGeometry = new THREE.Geometry()
+    surfaceGeometry.verticesNeedUpdate = true
     this.heatmap.forEach((el, row) => el.forEach((el, col) => {
       surfaceGeometry.vertices.push(
-        new THREE.Vector3(tileLength * col, el * elevationScale, tileLength * row)
+        new THREE.Vector3(tileLength * col,(el - minElv) * elevationScale, tileLength * row)
       )
     }))
 
@@ -80,13 +87,27 @@ class Geometry3D extends BasicScene {
       wireframe: true
     })
     let surface = new THREE.Mesh(surfaceGeometry, surfaceMaterial)
+    this.surface = surface
     this.group.add(surface)
-
+    this.yCoords = this.surface.geometry.vertices.map(el => el.y)
+    this.surface.geometry.verticesNeedUpdate = true
+    
   }
 
   animate() {
     requestAnimationFrame(this.animate.bind(this))
     this.controls.update();
+
+    if (this.surface) {
+      this.surface.geometry.vertices = this.surface.geometry.vertices.map((el,idx) => {
+        // console.log(gElevationScale)
+        el.y = this.yCoords[idx] * guiObject.gElevationScale
+        return el
+      })
+      this.surface.geometry.verticesNeedUpdate = true
+
+    }
+    // console.log(guiObject.gElevationScale)
     this.render()
   }
 
