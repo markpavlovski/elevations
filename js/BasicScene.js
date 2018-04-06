@@ -24,7 +24,9 @@ class BasicScene {
 
     // Set up group
     this.group = new THREE.Group()
-    this.group.position.y = 150
+    this.group.position.y = 50
+    this.group.rotation.x = 0.0
+
     this.scene.add(this.group)
 
     //  Renderer settings
@@ -34,6 +36,24 @@ class BasicScene {
     this.container.appendChild(this.renderer.domElement)
 
     this.targetRotation = 0
+
+
+
+  	// controls
+
+  	this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+
+  	//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
+
+  	this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+  	this.controls.dampingFactor = 0.25;
+
+  	this.controls.panningMode = THREE.HorizontalPanning; // default is THREE.ScreenSpacePanning
+
+  	this.controls.minDistance = 100;
+  	this.controls.maxDistance = 500
+
+  	this.controls.maxPolarAngle = Math.PI / 2;
   }
 
   initTestObjects(){
@@ -68,10 +88,9 @@ class BasicScene {
 
   animate() {
     requestAnimationFrame(this.animate.bind(this))
+    this.controls.update();
     this.render()
-    this.group.rotation.y += .01
-    this.group.rotation.x = 0.75
-
+    this.group.rotation.y += .00
   }
 
   render() {

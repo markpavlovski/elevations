@@ -75,6 +75,7 @@ class ElevationData {
     if (i < this.requestLocations.length) {
       let response = await this.googleMapsRequest(this.requestLocations[i], responseArray)
       console.log(`Receiving ${i+1}/${(this.radius*2+1)**2}`)
+      document.title = `Receiving ${i+1}/${(this.radius*2+1)**2}`
       i++
       return await setTimeout(() => this.requestElevations(i, responseArray), 3000)
     } else {
@@ -139,6 +140,8 @@ class ElevationData {
       }
     }
     console.log("elevation data complete")
+    document.title = `Elevations - data received.`
+
   }
 
 
