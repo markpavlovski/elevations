@@ -14,7 +14,7 @@ class BasicScene {
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color(0xf0f0f0)
 
-    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000)
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1500)
     this.camera.position.set(0, 150, 500)
     this.scene.add(this.camera)
 
@@ -41,19 +41,19 @@ class BasicScene {
 
   	// controls
 
-  	this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement );
+  	this.controls = new THREE.OrbitControls( this.camera, this.renderer.domElement )
 
   	//controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 
-  	this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-  	this.controls.dampingFactor = 0.25;
+  	this.controls.enableDamping = true // an animation loop is required when either damping or auto-rotation are enabled
+  	this.controls.dampingFactor = 0.25
 
   	this.controls.panningMode = THREE.HorizontalPanning; // default is THREE.ScreenSpacePanning
 
-  	this.controls.minDistance = 100;
-  	this.controls.maxDistance = 500
+  	this.controls.minDistance = 100
+  	this.controls.maxDistance = 1000
 
-  	this.controls.maxPolarAngle = Math.PI / 2;
+  	this.controls.maxPolarAngle = Math.PI / 2
   }
 
   initTestObjects(){
