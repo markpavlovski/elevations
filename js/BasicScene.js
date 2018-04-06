@@ -14,7 +14,9 @@ class BasicScene {
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color(0xf0f0f0)
 
-    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1500)
+    this.windowX = 0.8
+    this.windowY = 0.8
+    this.camera = new THREE.PerspectiveCamera(50, window.innerWidth * this.windowX / window.innerHeight * this.windowY, 1, 1500)
     this.camera.position.set(0, 150, 500)
     this.scene.add(this.camera)
 
@@ -32,7 +34,7 @@ class BasicScene {
     //  Renderer settings
     this.renderer = new THREE.WebGLRenderer({antialias: true})
     this.renderer.setPixelRatio(window.devicePixelRatio)
-    this.renderer.setSize(window.innerWidth, window.innerHeight)
+    this.renderer.setSize(window.innerWidth * this.windowX, window.innerHeight * this.windowY)
     this.container.appendChild(this.renderer.domElement)
 
     this.targetRotation = 0
@@ -75,9 +77,9 @@ class BasicScene {
 
 
   onWindowResize(){
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.aspect = window.innerWidth * this.windowX / window.innerHeight * this.windowY;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth * this.windowX, window.innerHeight * this.windowY);
   }
 
 
